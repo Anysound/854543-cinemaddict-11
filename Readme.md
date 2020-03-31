@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Нурлан Бергалиев](https://up.htmlacademy.ru/ecmascript/11/user/854543).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Щеколдин](https://up.htmlacademy.ru/ecmascript/11/user/861059).
 
 ---
 
