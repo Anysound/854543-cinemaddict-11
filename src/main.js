@@ -1,5 +1,8 @@
 'use strict';
 
+const FILM_COUNT = 5;
+const EXTRA_FILMS_COUNT = 2;
+
 // функции, возвращающие разметку
 const createUserRankTemplate = () => {
   return (
@@ -168,7 +171,7 @@ const renderFilmCardsContainer = () => {
 renderTemplate(containerMain, renderFilmCardsContainer(), `beforeend`);
 
 // рендер карточек фильмов
-const FILM_COUNT = 5;
+
 const filmCardContainer = document.querySelector(`.films-list__container`);
 
 for (let i = 0; i < FILM_COUNT; i++) {
@@ -201,7 +204,7 @@ const createMostCommentedFilmsContainer = () => {
 renderTemplate(document.querySelector(`.films-list`), createMostCommentedFilmsContainer(), `afterend`);
 
 // рендер карточек mostCommented-фильмов
-const EXTRA_FILMS_COUNT = 2;
+
 const mostCommentedFilmsContainer = document.querySelector(`.films-list--most-commented .films-list__container`);
 
 for (let i = 0; i < EXTRA_FILMS_COUNT; i++) {
