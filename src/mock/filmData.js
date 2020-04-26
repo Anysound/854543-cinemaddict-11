@@ -37,10 +37,10 @@ const genres = [
 ];
 
 const emojis = [
-  `angry`,
-  `puke`,
-  `sleeping`,
-  `smile`
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`
 ];
 
 const directors = [
@@ -116,7 +116,7 @@ const getRandomComments = () => {
   for (let i = 0; i < amountOfComments; i++) {
     comments.push({
       emoji: getRandomValue(emojis),
-      date: getRandomDate(),
+      commentDate: getRandomDate(),
       author: getRandomValue(authors),
       message: getRandomValue(messages)
     });
@@ -149,7 +149,8 @@ const getRandomDate = () => {
 
   targetDate.setDate(targetDate.getDate() + diffValue);
 
-  return targetDate;
+  const formatDate = `${targetDate.getFullYear()}/${targetDate.getMonth() + 1}/${targetDate.getDate()} ${targetDate.getHours()}:${targetDate.getMinutes()}`;
+  return formatDate;
 };
 
 const getRandomGenres = () => {
