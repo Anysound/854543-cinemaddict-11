@@ -1,25 +1,13 @@
-import {createElement} from '../utils.js';
 import {createShowMoreBtnTemplate} from '../templates/showMoreBtn.js';
+import AbstractComponent from './abstractComponent.js'
 
-class ShowMoreBtn {
-  constructor() {
-    this._element = null;
-  }
-
+class ShowMoreBtn extends AbstractComponent {
   getTemplate() {
     return createShowMoreBtnTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler)
   }
 }
 

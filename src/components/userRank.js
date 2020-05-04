@@ -1,25 +1,9 @@
-import {createElement} from '../utils.js';
 import {createUserRankTemplate} from '../templates/userRank.js';
+import AbstractComponent from './abstractComponent.js';
 
-class UserRank {
-  constructor() {
-    this._element = null;
-  }
-
+class UserRank extends AbstractComponent {
   getTemplate() {
     return createUserRankTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

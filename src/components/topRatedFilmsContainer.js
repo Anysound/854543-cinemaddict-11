@@ -1,25 +1,9 @@
-import {createElement} from '../utils.js';
 import {createTopRatedFilmsContainerTemplate} from '../templates/topRatedFilmsContainer.js';
+import AbstractComponent from './abstractComponent.js';
 
-class TopRatedFilmsContainer {
-  constructor() {
-    this._element = null;
-  }
-
+class TopRatedFilmsContainer extends AbstractComponent {
   getTemplate() {
     return createTopRatedFilmsContainerTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

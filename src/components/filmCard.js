@@ -1,26 +1,29 @@
-import {createElement} from "../utils";
 import {createFilmCardTemplate} from '../templates/filmCard.js';
+import AbstractComponent from './abstractComponent.js';
 
-class FilmCard {
+class FilmCard extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  posterClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, handler)
   }
 
-  removeElement() {
-    this._element = null;
+  titleClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler)
+  }
+
+  commentsClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
   }
 }
 
