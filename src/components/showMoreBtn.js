@@ -1,5 +1,5 @@
 import {createShowMoreBtnTemplate} from '../templates/showMoreBtn.js';
-import AbstractComponent from './abstractComponent.js'
+import AbstractComponent from './abstractComponent.js';
 
 class ShowMoreBtn extends AbstractComponent {
   getTemplate() {
@@ -7,7 +7,7 @@ class ShowMoreBtn extends AbstractComponent {
   }
 
   setClickHandler(handler) {
-    this.getElement().addEventListener(`click`, handler)
+    this.getElement().addEventListener(`click`, handler);
   }
 }
 

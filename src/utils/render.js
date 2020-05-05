@@ -27,6 +27,6 @@ const createElement = (template) => {
 const remove = (component) => {
   component.getElement().remove();
   component.removeElement();
-}
+};
 
 export {createElement, render, remove, RenderPosition};

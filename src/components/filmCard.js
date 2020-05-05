@@ -13,12 +13,12 @@ class FilmCard extends AbstractComponent {
 
   posterClickHandler(handler) {
     this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, handler)
+      .addEventListener(`click`, handler);
   }
 
   titleClickHandler(handler) {
     this.getElement().querySelector(`.film-card__title`)
-      .addEventListener(`click`, handler)
+      .addEventListener(`click`, handler);
   }
 
   commentsClickHandler(handler) {
