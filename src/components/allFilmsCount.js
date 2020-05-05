@@ -1,25 +1,9 @@
-import {createElement} from '../utils.js';
 import {createAllFilmsCount} from '../templates/allFilmsCount.js';
+import AbstractComponent from './abstractComponent.js';
 
-class AllFilmsCount {
-  constructor() {
-    this._element = null;
-  }
-
+class AllFilmsCount extends AbstractComponent {
   getTemplate() {
     return createAllFilmsCount();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 
