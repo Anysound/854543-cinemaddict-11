@@ -150,7 +150,7 @@ const getRandomDate = () => {
   targetDate.setDate(targetDate.getDate() + diffValue);
 
   const formatDate = `${targetDate.getFullYear()}/${targetDate.getMonth() + 1}/${targetDate.getDate()} ${targetDate.getHours()}:${targetDate.getMinutes()}`;
-  return formatDate;
+  return parseInt(formatDate, 10);
 };
 
 const getRandomGenres = () => {

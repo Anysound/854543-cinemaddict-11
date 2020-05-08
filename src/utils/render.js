@@ -6,6 +6,9 @@ const RenderPosition = {
 
 const render = (container, component, place) => {
   switch (place) {
+    case RenderPosition.BEFOREBEGIN:
+      container.before(component.getElement());
+      break;
     case RenderPosition.AFTERBEGIN:
       container.prepend(component.getElement());
       break;
