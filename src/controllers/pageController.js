@@ -5,8 +5,9 @@ import FilmCardsContainerComponent from '../components/filmCardsContainer.js';
 import TopRatedFilmsContainerComponent from '../components/topRatedFilmsContainer.js';
 import MostCommentedFilmsContainerComponent from '../components/mostCommentedFilmsContainer';
 import FilmsBoardComponent from '../components/filmsBoard.js';
-
+import SortComponent from '../components/sort.js';
 import {render, RenderPosition, remove} from '../utils/render.js';
+import {SortType} from '../templates/sort.js';
 
 // константы
 const EXTRA_FILMS_COUNT = 2;
@@ -21,6 +22,7 @@ class PageControoler {
     this._topRatedFilmsContainerComponent = new TopRatedFilmsContainerComponent();
     this._filmsBoardComponent = new FilmsBoardComponent();
     this._filmCardsContainerComponent = new FilmCardsContainerComponent();
+    this._sortComponent = new SortComponent();
   }
 
   renderBoard() {
@@ -60,14 +62,80 @@ class PageControoler {
     render(container, filmCardComponent, place);
   }
 
-  render(films) {
+  _renderShowMoreBtn(films) {
     const filmCardContainer = document.querySelector(`.films-list__container`);
     let showingFilmsCount = INITIAL_FILMS_COUNT + 1;
+
+    if (showingFilmsCount >= films.length) {
+      return;
+    }
+    this._showMoreBtnComponent.removeElement();
+    render(filmCardContainer, this._showMoreBtnComponent, RenderPosition.AFTEREND);
+
+    this._showMoreBtnComponent.setClickHandler(() => {
+      const prevFilmsCount = showingFilmsCount;
+      showingFilmsCount = showingFilmsCount + SHOWING_FILMS_BY_BTN;
+
+      films.slice(prevFilmsCount, showingFilmsCount)
+        .forEach((film) => this._renderFilm(filmCardContainer, film, RenderPosition.BEFOREEND));
+
+      if (showingFilmsCount >= films.length) {
+        remove(this._showMoreBtnComponent);
+      }
+    });
+  }
+
+  _getSortedFilms(films, sortType, from, to) {
+    let sortedFilms = [];
+    const showingFilms = films.slice();
+
+    switch (sortType) {
+      case SortType.RATING:
+        sortedFilms = showingFilms.sort((a, b) => a.rank - b.rank);
+        break;
+
+      case SortType.DATE:
+        sortedFilms = showingFilms.sort((a, b) => a.releaseYear - b.releaseYear);
+        break;
+
+      case SortType.DEFAULT:
+        sortedFilms = showingFilms;
+        break;
+    }
+
+    return sortedFilms.slice(from, to);
+  }
+
+  render(films) {
+    const filmCardContainer = document.querySelector(`.films-list__container`);
+    const filmsContainer = document.querySelector(`.films-list`);
+    let showingFilmsCount = INITIAL_FILMS_COUNT + 1;
+
+    document.querySelector(`.films-list__container`).contains(document.querySelector(`.films-list__show-more`));
+    // сортировка
+    render(filmCardContainer, this._sortComponent, RenderPosition.BEFOREBEGIN);
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      showingFilmsCount = INITIAL_FILMS_COUNT + 1;
+
+      const sortedFilms = this._getSortedFilms(films, sortType, 0, showingFilmsCount);
+
+      filmCardContainer.innerHTML = ``;
+
+      sortedFilms.slice(1, showingFilmsCount)
+        .forEach((film) => this._renderFilm(filmCardContainer, film, RenderPosition.AFTERBEGIN));
+      // рендер кнопки
+      // при клике по фильтрам, если не нажимать loadMoreBtn, кнопка не рендерилась,
+      // добавил проверку чтобы рендер кнопки не дублировался
+      if (!filmsContainer.contains(this._showMoreBtnComponent.getElement())) {
+        this._renderShowMoreBtn(films);
+      }
+    });
+
+    // начальный рендер фильмов и кнопки
     films.slice(1, showingFilmsCount)
       .forEach((film) => this._renderFilm(filmCardContainer, film, RenderPosition.AFTERBEGIN));
 
-    // рендер кнопки
-    render(filmCardContainer, this._showMoreBtnComponent, RenderPosition.AFTEREND);
+    this._renderShowMoreBtn(films);
 
     // рендер mostCommented-контейнера
     const extraFilmsContainer = document.querySelector(`.films-list`);
@@ -85,19 +153,6 @@ class PageControoler {
 
     // рендер карточек topRated-фильмов
     extraFilms.forEach((film) => this._renderFilm(topRatedFilmsContainer, film, RenderPosition.AFTERBEGIN));
-
-    // появление карточек при клике на кнопку "show more"
-    this._showMoreBtnComponent.setClickHandler(() => {
-      const prevFilmsCount = showingFilmsCount;
-      showingFilmsCount = showingFilmsCount + SHOWING_FILMS_BY_BTN;
-
-      films.slice(prevFilmsCount, showingFilmsCount)
-        .forEach((film) => this._renderFilm(filmCardContainer, film, RenderPosition.BEFOREEND));
-
-      if (showingFilmsCount >= films.length) {
-        remove(this._showMoreBtnComponent);
-      }
-    });
   }
 }
 

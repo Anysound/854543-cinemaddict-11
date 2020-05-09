@@ -6,6 +6,7 @@ import {generateMenuFiltersData} from './mocks/menuFilters.js';
 import {render, RenderPosition} from './utils/render.js';
 import PageController from './controllers/pageController.js';
 import {generateMocks} from './mocks/filmData.js';
+
 // моки
 let mocks = generateMocks(15);
 let filtersMocks = generateMenuFiltersData();
@@ -28,6 +29,8 @@ const pageController = new PageController(containerMain);
 
 pageController.renderBoard();
 pageController.render(mocks);
+
+
 
 // рендер кол-ва фильмов
 const filmsCountContainer = document.querySelector(`.footer__statistics`);
