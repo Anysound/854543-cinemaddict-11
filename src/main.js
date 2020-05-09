@@ -29,6 +29,8 @@ const pageController = new PageController(containerMain);
 pageController.renderBoard();
 pageController.render(mocks);
 
+
+
 // рендер кол-ва фильмов
 const filmsCountContainer = document.querySelector(`.footer__statistics`);
 const allFilmsCountComponent = new AllFilmsCountComponent();
