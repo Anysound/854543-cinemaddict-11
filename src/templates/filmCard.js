@@ -1,5 +1,5 @@
 const createFilmCardTemplate = (film) => {
-  const {title, poster, rank, releaseYear, duration, genre, description, comments} = film;
+  const {title, poster, rank, releaseYear, duration, genre, description, comments, isAdded, isFavorite, isWatched} = film;
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>
@@ -13,9 +13,9 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__description">${description}</p>
       <a class="film-card__comments">${comments.length} comments</a>
       <form class="film-card__controls">
-        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-        <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isAdded ? `film-card__controls-item--active` : ``}">Add to watchlist</button>
+        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? `film-card__controls-item--active`: ``}">Mark as watched</button>
+        <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorite ? `film-card__controls-item--active` : ``}">Mark as favorite</button>
       </form>
     </article>`
   );

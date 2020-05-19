@@ -15,6 +15,21 @@ class FilmPopup extends AbstractComponent {
     this.getElement().querySelector(`.film-details__close-btn`)
       .addEventListener(`mousedown`, handler);
   }
+
+  favoritesClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  alreadyWatchedClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  watchlistClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
 }
 
 export default FilmPopup;
