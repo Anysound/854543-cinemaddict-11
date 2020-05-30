@@ -578,6 +578,9 @@ button {
   height: 25px;
   outline: none;
 }
+.film-details__add-emoji-label img {
+  width: 100%;
+}
 .film-details__close-btn::before {
   content: "✕";
   position: absolute;

@@ -6,6 +6,7 @@ class AbstractSmartComponent extends AbstractComponent {
   }
 
   rerender() {
+
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
 

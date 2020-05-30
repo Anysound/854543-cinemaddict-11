@@ -9,6 +9,8 @@ import {generateMocks} from './mocks/filmData.js';
 
 // моки
 let mocks = generateMocks(15);
+let extraMocksTopRated = generateMocks(2);
+let extraMocksMostCommented = generateMocks(2);
 let filtersMocks = generateMenuFiltersData();
 
 // звание пользователя
@@ -28,8 +30,7 @@ menuComponent._menuFiltersData.forEach(() => {
 const pageController = new PageController(containerMain);
 
 pageController.renderBoard();
-pageController.render(mocks);
-
+pageController.render(mocks, extraMocksMostCommented, extraMocksTopRated);
 
 
 // рендер кол-ва фильмов

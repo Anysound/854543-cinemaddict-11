@@ -40,8 +40,7 @@ class FilmCard extends AbstractSmartComponent {
     element.querySelector(`.film-card__controls-item--mark-as-watched`)
       .addEventListener(`click`, () => {
         this._isWatched = !this._isWatched;
-
-        
+  
       });
 
     element.querySelector(`.film-card__controls-item--favorite`)
@@ -88,7 +87,6 @@ class FilmCard extends AbstractSmartComponent {
   }
 
   alreadyWatchedClickHandler(handler) {
-    this.removeElement();
     this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
