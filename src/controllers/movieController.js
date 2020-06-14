@@ -3,32 +3,34 @@ import FilmCardPopupComponent from '../components/filmPopup.js';
 import {render, RenderPosition, remove, replace} from '../utils/render.js';
 
 class MovieController {
-  constructor(container, onDataChange, movieType) {
+  constructor(container, onDataChange, movieType, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
     this._movieType = movieType;
 
     this._filmCardComponent = null;
     this._filmCardPopupComponent = null;
-    // this._img = this._filmCardPopupComponent.getElement(`.film-details__add-emoji-label img`);
 
     this._isRendered = false;
   }
 
-  _renderFilm(film) {
-
+  render(film) {
     const filmCardComponent = new FilmCardComponent(film);
-    const filmCardPopupComponent = new FilmCardPopupComponent(film);
-    // this._filmCardPopupComponent = new FilmCardPopupComponent(film);
-
+    this._filmCardPopupComponent = new FilmCardPopupComponent(film);
+    const filmsContainer = document.querySelector(`.films-list__container`);
     // обработчики клика появления/закрытия попапа
     const onElementsClick = () => {
-      document.body.appendChild(filmCardPopupComponent.getElement());
+      // запуск viewChange
+      this._onViewChange();
+
+      render(filmsContainer, this._filmCardPopupComponent, RenderPosition.BEFOREEND);
+      // document.body.appendChild(filmCardPopupComponent.getElement());
       document.addEventListener(`keydown`, onEscKeyClose);
-      filmCardPopupComponent.closeBtnClickHandler(removePopupComponent);
+      this._filmCardPopupComponent.closeBtnClickHandler(removePopupComponent);
     };
 
-    const removePopupComponent = () => remove(filmCardPopupComponent);
+    const removePopupComponent = () => remove(this._filmCardPopupComponent);
 
     filmCardComponent.posterClickHandler(onElementsClick);
     filmCardComponent.titleClickHandler(onElementsClick);
@@ -39,83 +41,28 @@ class MovieController {
       const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
       if (isEscKey) {
-        remove(filmCardPopupComponent);
+        remove(this._filmCardPopupComponent);
         document.removeEventListener(`keydown`, onEscKeyClose);
       }
     };
 
     filmCardComponent.watchlistClickHandler(() => {
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isAdded: !film.isAdded
-      }))
+      const newData = Object.assign({}, film, {isAdded: !film.isAdded});
+      this._onDataChange(this, film, newData);
     });
 
     filmCardComponent.alreadyWatchedClickHandler(() => {
-      this._onDataChange(this, film, Object.assign({}, film, {
-        isWatched: !film.isWatched
-      }))
+      const newData = Object.assign({}, film, {isWatched: !film.isWatched});
+      this._onDataChange(this, film, newData);
     });
 
     filmCardComponent.favoritesClickHandler(() => {
       const newData = Object.assign({}, film, {isFavorite: !film.isFavorite});
-      this._onDataChange(this, film, newData, this._movieType)
-
-      
+      this._onDataChange(this, film, newData);
     });
 
-    filmCardPopupComponent.setSmileEmotionHandler(() => {
-      const label = document.querySelector(`.film-details__add-emoji-label`);
-      const img = document.createElement(`img`);
-      const oldImg = label.querySelector(`img`);
-      img.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--smile img`).src;
-      if (label.contains(oldImg)) {
-        oldImg.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--smile img`).src;
-      } else {
-        label.prepend(img);
-      }
-      
-    });
 
-    filmCardPopupComponent.setSleepingEmotionHandler(() => {
-      const label = document.querySelector(`.film-details__add-emoji-label`);
-      const img = document.createElement(`img`);
-      const oldImg = label.querySelector(`img`);
-      img.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--sleeping img`).src;
-      
-      if (label.contains(oldImg)) {
-        oldImg.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--sleeping img`).src;
-      } else {
-        label.prepend(img);
-      }      
-    });
-
-    filmCardPopupComponent.setPukeEmotionHandler(() => {
-      const label = document.querySelector(`.film-details__add-emoji-label`);
-      const img = document.createElement(`img`);
-      const oldImg = label.querySelector(`img`);
-      img.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--puke img`).src;
-      
-      if (label.contains(oldImg)) {
-        oldImg.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--puke img`).src;
-      } else {
-        label.prepend(img);
-      }
-    });
-
-  filmCardPopupComponent.setAngryEmotionHandler(() => {
-    const label = document.querySelector(`.film-details__add-emoji-label`);
-    const img = document.createElement(`img`);
-    const oldImg = label.querySelector(`img`);
-    img.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--angry img`).src;
-    
-    if (label.contains(oldImg)) {
-      oldImg.src = filmCardPopupComponent.getElement().querySelector(`.film-details__emoji-label--angry img`).src;
-    } else {
-      label.prepend(img);
-    }
-  });
-
-    // проверка существованния компонента
+    // проверка существования компонента
     if (this._isRendered) {
       replace(filmCardComponent, this._filmCardComponent);
     } else {
@@ -123,6 +70,10 @@ class MovieController {
       this._isRendered = true;
     }
     this._filmCardComponent = filmCardComponent;
+  }
+
+  setDefaultView() {
+    remove(this._filmCardPopupComponent);
   }
 }
 

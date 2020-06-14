@@ -1,22 +1,18 @@
 import {createFilmPopupTemplate} from '../templates/filmPopup.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
-// import AbstractComponent from './abstractComponent.js';
 
 class FilmPopup extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._imgSmile = ``;
 
     this._closeBtnClickHandler = null;
     this._favoritesClickHandler = null;
     this._alreadyWatchedClickHandler = null;
     this._watchlistClickHandler = null;
-    this._setSmileEmotionHandler = null;
-    this._setSleepingEmotionHandler = null;
-    this._setPukeEmotionHandler = null;
-    this._setAngryEmotionHandler = null;
 
-    // this._subscribeOnEvents();
+    this._subscribeOnEvents();
   }
 
   rerender() {
@@ -24,7 +20,7 @@ class FilmPopup extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._film);
+    return createFilmPopupTemplate(this._film, this._imgSmile);
   }
 
   closeBtnClickHandler(handler) {
@@ -55,34 +51,6 @@ class FilmPopup extends AbstractSmartComponent {
     this._watchlistClickHandler = handler;
   }
 
-  setSmileEmotionHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-label--smile`)
-      .addEventListener(`click`, handler);
-
-    this._setSmileEmotionHandler = handler;
-  }
-
-  setSleepingEmotionHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-label--sleeping`)
-      .addEventListener(`click`, handler);
-
-    this._setSleepingEmotionHandler = handler;
-  }
-
-  setPukeEmotionHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-label--puke`)
-      .addEventListener(`click`, handler);
-
-    this._setPukeEmotionHandler = handler;
-  }
-
-  setAngryEmotionHandler(handler) {
-    this.getElement().querySelector(`.film-details__emoji-label--angry`)
-      .addEventListener(`click`, handler);
-
-    this._setAngryEmotionHandler = handler;
-  }
-
   recoveryListeners() {
 
     // заново вешаем обработчики
@@ -90,24 +58,49 @@ class FilmPopup extends AbstractSmartComponent {
     this.favoritesClickHandler(this._favoritesClickHandler);
     this.alreadyWatchedClickHandler(this._alreadyWatchedClickHandler);
     this.watchlistClickHandler(this._watchlistClickHandler);
-    this.setSmileEmotionHandler(this._setSmileEmotionHandler);
-    this.setSleepingEmotionHandler(this._setSleepingEmotionHandler);
-    this.setPukeEmotionHandler(this._setPukeEmotionHandler);
-    this.setAngryEmotionHandler(this._setAngryEmotionHandler);
 
-    // this._subscribeOnEvents();
+    this._subscribeOnEvents();
   }
 
-  // _subscribeOnEvents() {
-  //   const element = this.getElement();
+  _subscribeOnEvents() {
+    const element = this.getElement();
 
-  //   element.querySelector(`.film-details__control-label--favorite`)
-  //     .addEventListener(`click`, () => {
-  //       this._isFavorite = !this._isFavorite
-  //     });
-    
-  //   // this.rerender();
-  // }
+    // smileHandler
+    element.querySelector(`.film-details__emoji-label--smile`)
+      .addEventListener(`click`, () => {
+        const imgPath = element.querySelector(`.film-details__emoji-label--smile img`).src;
+        this._imgSmile = imgPath;
+
+        this.rerender();
+      });
+
+    // sleepingHandler
+    element.querySelector(`.film-details__emoji-label--sleeping`)
+      .addEventListener(`click`, () => {
+        const imgPath = element.querySelector(`.film-details__emoji-label--sleeping img`).src;
+        this._imgSmile = imgPath;
+
+        this.rerender();
+      });
+
+    // pukeHandler
+    element.querySelector(`.film-details__emoji-label--puke`)
+    .addEventListener(`click`, () => {
+      const imgPath = element.querySelector(`.film-details__emoji-label--puke img`).src;
+      this._imgSmile = imgPath;
+
+      this.rerender();
+    });
+
+    // angryHandler
+    element.querySelector(`.film-details__emoji-label--angry`)
+    .addEventListener(`click`, () => {
+      const imgPath = element.querySelector(`.film-details__emoji-label--angry img`).src;
+      this._imgSmile = imgPath;
+
+      this.rerender();
+    });
+  }
 }
 
 export default FilmPopup;

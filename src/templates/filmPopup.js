@@ -20,7 +20,7 @@ const createComments = (commentsData, commentsCount) => {
   return commentsTemplate;
 };
 
-const createFilmPopupTemplate = (film) => {
+const createFilmPopupTemplate = (film, imgSmile) => {
   const {poster, title, rank, director, date, genres, writers, actors, duration, country, ageLimit, description, isChecked, comments} = film;
   const commentsCount = comments.length;
 
@@ -105,7 +105,9 @@ const createFilmPopupTemplate = (film) => {
       </ul>
 
       <div class="film-details__new-comment">
-        <div for="add-emoji" class="film-details__add-emoji-label"></div>
+        <div for="add-emoji" class="film-details__add-emoji-label">
+          ${imgSmile !== `` ? `<img src="${imgSmile}">` : ``}
+        </div>
 
         <label class="film-details__comment-label">
           <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>

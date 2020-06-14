@@ -33,22 +33,17 @@ class FilmCard extends AbstractSmartComponent {
     element.querySelector(`.film-card__controls-item--add-to-watchlist`)
       .addEventListener(`click`, () => {
         this._isAdded = !this._isAdded;
-
-        
       });
-    
+
     element.querySelector(`.film-card__controls-item--mark-as-watched`)
       .addEventListener(`click`, () => {
         this._isWatched = !this._isWatched;
-  
       });
 
     element.querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, () => {
         this._isFavorite = !this._isFavorite;
-
-        
-      })
+      });
   }
 
   getTemplate() {
@@ -65,7 +60,7 @@ class FilmCard extends AbstractSmartComponent {
   titleClickHandler(handler) {
     this.getElement().querySelector(`.film-card__title`)
       .addEventListener(`click`, handler);
-    
+
     this._titleClickHandler = handler;
   }
 
