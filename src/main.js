@@ -6,13 +6,13 @@ import {generateMenuFiltersData} from './mocks/menuFilters.js';
 import {render, RenderPosition} from './utils/render.js';
 import PageController from './controllers/pageController.js';
 import FilterController from './controllers/filterController.js';
-// import {generateMocks} from './mocks/filmData.js';
+import {generateMocks} from './mocks/filmData.js';
 import MoviesModel from './models/movies.js';
 
 // моки
-// let mocks = generateMocks(15);
-// let extraMocksTopRated = generateMocks(2);
-// let extraMocksMostCommented = generateMocks(2);
+let mocks = generateMocks(15);
+let extraMocksTopRated = generateMocks(2);
+let extraMocksMostCommented = generateMocks(2);
 let filtersMocks = generateMenuFiltersData();
 
 let moviesModel = new MoviesModel();
