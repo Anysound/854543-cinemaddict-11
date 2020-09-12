@@ -1,17 +1,22 @@
 // импорт компонентов
 import UserRankComponent from './components/userRank.js';
-import MenuComponent from './components/menu.js';
+// import FilterComponent from './components/filter.js';
 import AllFilmsCountComponent from './components/allFilmsCount.js';
 import {generateMenuFiltersData} from './mocks/menuFilters.js';
 import {render, RenderPosition} from './utils/render.js';
 import PageController from './controllers/pageController.js';
-import {generateMocks} from './mocks/filmData.js';
+import FilterController from './controllers/filterController.js';
+// import {generateMocks} from './mocks/filmData.js';
+import MoviesModel from './models/movies.js';
 
 // моки
-let mocks = generateMocks(15);
-let extraMocksTopRated = generateMocks(2);
-let extraMocksMostCommented = generateMocks(2);
+// let mocks = generateMocks(15);
+// let extraMocksTopRated = generateMocks(2);
+// let extraMocksMostCommented = generateMocks(2);
 let filtersMocks = generateMenuFiltersData();
+
+let moviesModel = new MoviesModel();
+moviesModel.setMovies(mocks);
 
 // звание пользователя
 const containerUserRank = document.querySelector(`.header`);
@@ -20,17 +25,19 @@ render(containerUserRank, userRankComponent, RenderPosition.BEFOREEND);
 
 // меню
 const containerMain = document.querySelector(`.main`);
-const menuComponent = new MenuComponent(filtersMocks);
+// const menuComponent = new FilterComponent(filtersMocks);
+const filterController = new FilterController(containerMain, moviesModel, filtersMocks);
+filterController.render();
 
-menuComponent._menuFiltersData.forEach(() => {
-  render(containerMain, menuComponent, RenderPosition.AFTERBEGIN);
-});
+// menuComponent._menuFiltersData.forEach(() => {
+//   render(containerMain, menuComponent, RenderPosition.AFTERBEGIN);
+// });
 
 // работа контроллера
-const pageController = new PageController(containerMain);
+const pageController = new PageController(containerMain, moviesModel);
 
 pageController.renderBoard();
-pageController.render(mocks, extraMocksMostCommented, extraMocksTopRated);
+pageController.render(extraMocksMostCommented, extraMocksTopRated);
 
 
 // рендер кол-ва фильмов

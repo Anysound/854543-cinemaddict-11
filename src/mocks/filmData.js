@@ -1,3 +1,6 @@
+import moment from "moment";
+import momentDuration from "moment-duration-format";
+
 const FIRST_FILM_BIRTH_YEAR = 1895;
 const NOVADAYS = 2020;
 const MIN_RANK = 1;
@@ -143,14 +146,7 @@ const getRandomSeveralValues = (items) => {
 };
 
 const getRandomDate = () => {
-  const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
-  const diffValue = sign * getRandomDigit(0, 5);
-
-  targetDate.setDate(targetDate.getDate() + diffValue);
-
-  const formatDate = `${targetDate.getFullYear()}/${targetDate.getMonth() + 1}/${targetDate.getDate()} ${targetDate.getHours()}:${targetDate.getMinutes()}`;
-  return parseInt(formatDate, 10);
+  return moment().format(`DD MMMM YYYY`);
 };
 
 const getRandomGenres = () => {
@@ -166,13 +162,13 @@ const getRandomGenres = () => {
 };
 
 const getRandomDuration = () => {
-  const hours = Math.round(Math.random() * MAX_HOURS_DURATION);
-  const minutes = Math.round(Math.random() * MAX_MINUTES_DURATION);
-  return `${hours}h ${minutes}m`;
+  const digit = getRandomDigit(70, 120);
+  return moment.duration(digit, "minutes").format("h [hrs], m [min]");
 };
 
 const generateFilmData = () => {
   return {
+    id: String(new Date() + Math.random()),
     poster: getRandomValue(posters),
     title: getRandomValue(filmTitles),
     rank: getRandomRate(MIN_RANK, MAX_RANK),

@@ -9,14 +9,14 @@ class MovieController {
     this._onViewChange = onViewChange;
     this._movieType = movieType;
 
-    this._filmCardComponent = null;
+    this._filmCardComponent = null; // старый компонент
     this._filmCardPopupComponent = null;
 
     this._isRendered = false;
   }
 
   render(film) {
-    const filmCardComponent = new FilmCardComponent(film);
+    const filmCardComponent = new FilmCardComponent(film); // новый компонент с новыми данными
     this._filmCardPopupComponent = new FilmCardPopupComponent(film);
     const filmsContainer = document.querySelector(`.films-list__container`);
     // обработчики клика появления/закрытия попапа
@@ -48,6 +48,7 @@ class MovieController {
 
     filmCardComponent.watchlistClickHandler(() => {
       const newData = Object.assign({}, film, {isAdded: !film.isAdded});
+      debugger;
       this._onDataChange(this, film, newData);
     });
 
@@ -69,7 +70,13 @@ class MovieController {
       render(this._container, filmCardComponent, RenderPosition.BEFOREEND);
       this._isRendered = true;
     }
-    this._filmCardComponent = filmCardComponent;
+    this._filmCardComponent = filmCardComponent; // обновляется значение
+  }
+
+  destroy() {
+    remove(this._filmCardPopupComponent);
+    remove(this._filmCardComponent);
+    document.removeEventListener(`keydown`, onEscKeyClose);
   }
 
   setDefaultView() {
