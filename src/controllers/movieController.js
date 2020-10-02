@@ -36,7 +36,7 @@ class MovieController {
     filmCardComponent.titleClickHandler(onElementsClick);
     filmCardComponent.commentsClickHandler(onElementsClick);
 
-    const onEscKeyClose = (evt) => {
+    this._onEscKeyClose = (evt) => {
       evt.preventDefault();
       const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
@@ -76,7 +76,7 @@ class MovieController {
   destroy() {
     remove(this._filmCardPopupComponent);
     remove(this._filmCardComponent);
-    document.removeEventListener(`keydown`, onEscKeyClose);
+    document.removeEventListener(`keydown`, this._onEscKeyClose);
   }
 
   setDefaultView() {

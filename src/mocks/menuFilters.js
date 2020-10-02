@@ -1,4 +1,4 @@
-const filterTitles = [`Watchlist`, `History`, `Favorites`];
+const filterTitles = [`watchlist`, `history`, `favorites`];
 
 const generateMenuFiltersData = () => {
   return filterTitles.map((it) => {

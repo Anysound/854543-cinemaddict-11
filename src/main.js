@@ -26,7 +26,7 @@ render(containerUserRank, userRankComponent, RenderPosition.BEFOREEND);
 // меню
 const containerMain = document.querySelector(`.main`);
 // const menuComponent = new FilterComponent(filtersMocks);
-const filterController = new FilterController(containerMain, moviesModel, filtersMocks);
+const filterController = new FilterController(containerMain, moviesModel);
 filterController.render();
 
 // menuComponent._menuFiltersData.forEach(() => {

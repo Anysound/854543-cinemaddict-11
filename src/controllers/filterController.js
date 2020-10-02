@@ -29,9 +29,9 @@ class FilterController {
       }
     });
     const oldComponent = this._filterComponent;
+    
     this._filterComponent = new FilterComponent(filters);
-
-    this._filterComponent.setFilterChangeHandler(this._onFilterChange);
+    this._filterComponent.setFilterChangeHandler(this._onFilterChange); // возможная ошибка, когда не рендерятся нужные карточки
 
     if (oldComponent) {
       replace(this._filterComponent, oldComponent)
