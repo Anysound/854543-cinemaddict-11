@@ -2,9 +2,10 @@ import {createFilmPopupTemplate} from '../templates/filmPopup.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
 class FilmPopup extends AbstractSmartComponent {
-  constructor(film) {
+  constructor(film, comments) {
     super();
     this._film = film;
+    this._comments = comments;
     this._imgSmile = ``;
 
     this._closeBtnClickHandler = null;
@@ -20,7 +21,7 @@ class FilmPopup extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._film, this._imgSmile);
+    return createFilmPopupTemplate(this._film, this._imgSmile, this._comments);
   }
 
   closeBtnClickHandler(handler) {
@@ -100,6 +101,9 @@ class FilmPopup extends AbstractSmartComponent {
 
       this.rerender();
     });
+    element.querySelector('.film-details__comment-delete').addEventListener('click', () => {
+      alert('delete')
+    })
   }
 }
 

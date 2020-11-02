@@ -1,5 +1,8 @@
-const createFilmCardTemplate = (film) => {
-  const {title, poster, rank, releaseYear, duration, genre, description, comments, isAdded, isFavorite, isWatched} = film;
+import CommentsModel from '../models/comments.js';
+// const commentsModel = new CommentsModel();
+
+const createFilmCardTemplate = (film, comments) => {
+  const {title, poster, rank, releaseYear, duration, genre, description, isAdded, isFavorite, isWatched} = film;
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>

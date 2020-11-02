@@ -183,7 +183,6 @@ const generateFilmData = () => {
     genre: getRandomValue(genres),
     genres: getRandomGenres(),
     description: getRandomSeveralValues(descriptionItems),
-    comments: getRandomComments(),
     isChecked: Math.random() > 0.5,
     isAdded: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
@@ -197,4 +196,4 @@ const generateMocks = (count) => {
     .map(generateFilmData);
 };
 
-export {generateFilmData, generateMocks};
+export {generateFilmData, generateMocks, getRandomComments, getRandomDigit};

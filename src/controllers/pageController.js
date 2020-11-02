@@ -1,4 +1,4 @@
-import MovieController from '../controllers/movieController.js';
+import MovieController, {Mode as MovieControllerMode, EmptyMovie} from '../controllers/movieController.js';
 import ShowMoreBtnComponent from '../components/showMoreBtn.js';
 import FilmCardsContainerComponent from '../components/filmCardsContainer.js';
 import TopRatedFilmsContainerComponent from '../components/topRatedFilmsContainer.js';
@@ -7,6 +7,7 @@ import FilmsBoardComponent from '../components/filmsBoard.js';
 import SortComponent from '../components/sort.js';
 import {render, RenderPosition, remove} from '../utils/render.js';
 import {SortType} from '../templates/sort.js';
+import moment from 'moment';
 
 // константы
 const INITIAL_FILMS_COUNT = 5;
@@ -18,13 +19,67 @@ const FilmType = {
   TOP_RATED: `filmType.topRated`
 };
 
+const messages = [
+  `Almost two hours? Seriously?`,
+  `Very very old. Meh`,
+  `Interesting setting and a good cast`,
+  `Boooooring`
+];
 
+const authors = [
+  `Bastian Shweinsteiger`,
+  `Miroslav Close`,
+  `Peter Schulz`,
+  `Michael Ballack`
+];
+
+const emojis = [
+  `angry.png`,
+  `puke.png`,
+  `sleeping.png`,
+  `smile.png`
+];
+
+const MIN_AMOUNT_OF_COMMENTS = 1;
+const MAX_AMOUNT_OF_COMMENTS = 7;
+
+const getRandomValue = (array) => array[Math.round(Math.random() * (array.length - 1))];
+const getRandomDate = () => {
+  return moment().format(`DD MMMM YYYY`);
+};
+
+const getRandomDigit = (min, max) => (min + Math.floor(Math.random() * (max - min)));
+
+const getRandomComments = () => {
+  const comments = [];
+  const amountOfComments = getRandomDigit(MIN_AMOUNT_OF_COMMENTS, MAX_AMOUNT_OF_COMMENTS);
+
+  for (let i = 0; i < amountOfComments; i++) {
+    comments.push({
+      emoji: getRandomValue(emojis),
+      commentDate: getRandomDate(),
+      author: getRandomValue(authors),
+      message: getRandomValue(messages)
+    });
+  }
+
+  return comments;
+};
+
+const commentsArr = getRandomComments();
+const commentsLength = commentsArr.length;
+
+const CommentsBlock = {
+  comments: commentsArr,
+  amount: commentsLength
+}
 
 class PageController {
-  constructor(container, moviesModel) {
+  constructor(container, moviesModel, commentsModel) {
 
     this._container = container;
     this._moviesModel = moviesModel;
+    this._commentsModel = commentsModel;
 
     this._showMoreBtnComponent = new ShowMoreBtnComponent();
     this._mostCommentedFilmsContainerComponent = new MostCommentedFilmsContainerComponent();
@@ -36,9 +91,7 @@ class PageController {
 
     this._films = [];
     this._topRatedFilms = [];
-    this._mostCommentedFilms = [];
-
-    
+    this._mostCommentedFilms = [];    
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
@@ -54,7 +107,6 @@ class PageController {
   }
 
   renderFilmsFromModel(container, films, onDataChange, filmType, onViewChange) { // _renderFilms()
-    console.log(films);
     return films.map((film) => {
       const movieController = new MovieController(container, onDataChange, filmType, onViewChange);
       movieController._filmType = filmType;
@@ -134,13 +186,17 @@ class PageController {
   _onSortTypeChange(sortType) {
     // this._showingFilmsCount = INITIAL_FILMS_COUNT + 1;
     const filmCardContainer = document.querySelector(`.films-list__container`);
-    const filmsContainer = document.querySelector(`.films-list`);
+    const films = this._moviesModel.getMovies();
+    // const filmsContainer = document.querySelector(`.films-list`);
 
-    const sortedFilms = this._getSortedFilms(sortType, 0, this._showingFilmsCount); // 5 фильмов, должно быть все фильмы, подходящие под фильтр
-    filmCardContainer.innerHTML = ``;
+    const sortedFilms = this._getSortedFilms(films, sortType, 0, this._showingFilmsCount); // 5 фильмов, должно быть все фильмы, подходящие под фильтр
+    // filmCardContainer.innerHTML = ``;
 
-    const newFilms = this.renderFilmsFromModel(filmCardContainer, sortedFilms, this._onDataChange, this._sortComponent.getSortType(), this._onViewChange);
-    this._showedFilmsControllers = newFilms;
+    // const newFilms = this.renderFilmsFromModel(filmCardContainer, sortedFilms, this._onDataChange, this._sortComponent.getSortType(), this._onViewChange);
+    // this._showedFilmsControllers = newFilms;
+
+    this._removeFilms();
+    this._renderFilms(sortedFilms);
 
     // рендер кнопки
     // при клике по фильтрам, если не нажимать loadMoreBtn, кнопка не рендерилась,

@@ -1,29 +1,43 @@
-const createComments = (commentsData, commentsCount) => {
-  let commentsTemplate = ``;
+import CommentsModel from '../models/comments.js';
 
-  for (let i = 0; i < commentsCount; i++) {
-    const {emoji, message, author, commentDate} = commentsData[i];
-    commentsTemplate += `<li class="film-details__comment">
-  <span class="film-details__comment-emoji">
-    <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji-${emoji}">
-  </span>
-  <div>
-    <p class="film-details__comment-text">${message}</p>
-    <p class="film-details__comment-info">
-      <span class="film-details__comment-author">${author}</span>
-      <span class="film-details__comment-day">${commentDate}</span>
-      <button class="film-details__comment-delete">Delete</button>
-    </p>
-  </div>
-</li>`;
-  }
-  return commentsTemplate;
-};
+// import {getRandomComments, getRandomDigit} from '../mocks/filmData';
 
-const createFilmPopupTemplate = (film, imgSmile) => {
-  const {poster, title, rank, director, date, genres, writers, actors, duration, country, ageLimit, description, isChecked, comments} = film;
-  const commentsCount = comments.length;
 
+
+
+
+
+
+// const createComments = (commentsData, commentsCount) => {
+//   let commentsTemplate = ``;
+
+//   for (let i = 0; i < commentsCount; i++) {
+//     const {emoji, message, author, commentDate} = commentsData[i];
+//     commentsTemplate += `<li class="film-details__comment">
+//   <span class="film-details__comment-emoji">
+//     <img src="./images/emoji/${emoji}" width="55" height="55" alt="emoji-${emoji}">
+//   </span>
+//   <div>
+//     <p class="film-details__comment-text">${message}</p>
+//     <p class="film-details__comment-info">
+//       <span class="film-details__comment-author">${author}</span>
+//       <span class="film-details__comment-day">${commentDate}</span>
+//       <button class="film-details__comment-delete">Delete</button>
+//     </p>
+//   </div>
+// </li>`;
+//   }
+//   return commentsTemplate;
+// };
+
+
+
+const commentsModel = new CommentsModel();
+
+const createFilmPopupTemplate = (film, imgSmile, comments) => {
+
+  const {poster, title, rank, director, date, genres, writers, actors, duration, country, ageLimit, description, isChecked} = film;
+  
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -98,10 +112,11 @@ const createFilmPopupTemplate = (film, imgSmile) => {
     </div>
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
-        ${createComments(comments, commentsCount)}
+        <!--commentsModel.createComments(comments) -->
+        ${commentsModel.createComments(comments)}
       </ul>
 
       <div class="film-details__new-comment">

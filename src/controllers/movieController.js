@@ -1,6 +1,14 @@
 import FilmCardComponent from '../components/filmCard.js';
 import FilmCardPopupComponent from '../components/filmPopup.js';
 import {render, RenderPosition, remove, replace} from '../utils/render.js';
+import CommentsModel from '../models/comments.js';
+
+export const Mode = {
+  DEFAULT: `default`,
+  EDIT: `edit`
+}
+
+export const EmptyMovie = {};
 
 class MovieController {
   constructor(container, onDataChange, movieType, onViewChange) {
@@ -16,8 +24,13 @@ class MovieController {
   }
 
   render(film) {
-    const filmCardComponent = new FilmCardComponent(film); // новый компонент с новыми данными
-    this._filmCardPopupComponent = new FilmCardPopupComponent(film);
+
+    const commentsModel = new CommentsModel();
+    const commentsMocks = commentsModel.getComments();
+    // console.log(comments);
+    // const buildComments = commentsModel.createComments(commentsMocks);
+    const filmCardComponent = new FilmCardComponent(film, commentsMocks); // новый компонент с новыми данными
+    this._filmCardPopupComponent = new FilmCardPopupComponent(film, commentsMocks);
     const filmsContainer = document.querySelector(`.films-list__container`);
     // обработчики клика появления/закрытия попапа
     const onElementsClick = () => {
@@ -26,7 +39,7 @@ class MovieController {
 
       render(filmsContainer, this._filmCardPopupComponent, RenderPosition.BEFOREEND);
       // document.body.appendChild(filmCardPopupComponent.getElement());
-      document.addEventListener(`keydown`, onEscKeyClose);
+      document.addEventListener(`keydown`, this._onEscKeyClose);
       this._filmCardPopupComponent.closeBtnClickHandler(removePopupComponent);
     };
 
@@ -42,13 +55,12 @@ class MovieController {
 
       if (isEscKey) {
         remove(this._filmCardPopupComponent);
-        document.removeEventListener(`keydown`, onEscKeyClose);
+        document.removeEventListener(`keydown`, this._onEscKeyClose);
       }
     };
 
     filmCardComponent.watchlistClickHandler(() => {
       const newData = Object.assign({}, film, {isAdded: !film.isAdded});
-      debugger;
       this._onDataChange(this, film, newData);
     });
 
@@ -71,12 +83,6 @@ class MovieController {
       this._isRendered = true;
     }
     this._filmCardComponent = filmCardComponent; // обновляется значение
-  }
-
-  destroy() {
-    remove(this._filmCardPopupComponent);
-    remove(this._filmCardComponent);
-    document.removeEventListener(`keydown`, this._onEscKeyClose);
   }
 
   setDefaultView() {

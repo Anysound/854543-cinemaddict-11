@@ -1,11 +1,13 @@
 import {createFilmCardTemplate} from '../templates/filmCard.js';
 import AbstractSmartComponent from './abstract-smart-component.js';
 
+
 class FilmCard extends AbstractSmartComponent {
-  constructor(film) {
+  constructor(film, commentsCount) {
     super();
 
     this._film = film;
+    this._commentsCount = commentsCount;
     this._posterClickHandler = null;
     this._titleClickHandler = null;
     this._commentsClickHandler = null;
@@ -47,7 +49,7 @@ class FilmCard extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmCardTemplate(this._film);
+    return createFilmCardTemplate(this._film, this._commentsCount);
   }
 
   posterClickHandler(handler) {
