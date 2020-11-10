@@ -1,4 +1,4 @@
-import MovieController, {Mode as MovieControllerMode, EmptyMovie} from '../controllers/movieController.js';
+import MovieController from '../controllers/movieController.js';
 import ShowMoreBtnComponent from '../components/showMoreBtn.js';
 import FilmCardsContainerComponent from '../components/filmCardsContainer.js';
 import TopRatedFilmsContainerComponent from '../components/topRatedFilmsContainer.js';

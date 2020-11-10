@@ -4,6 +4,7 @@ import AbstractSmartComponent from './abstract-smart-component.js';
 class FilmPopup extends AbstractSmartComponent {
   constructor(film, comments) {
     super();
+
     this._film = film;
     this._comments = comments;
     this._imgSmile = ``;
@@ -14,6 +15,55 @@ class FilmPopup extends AbstractSmartComponent {
     this._watchlistClickHandler = null;
 
     this._subscribeOnEvents();
+  }
+
+  recoveryListeners() {
+    // заново вешаем обработчики
+    this.closeBtnClickHandler(this._closeBtnClickHandler);
+    this.favoritesClickHandler(this._favoritesClickHandler);
+    this.alreadyWatchedClickHandler(this._alreadyWatchedClickHandler);
+    this.watchlistClickHandler(this._watchlistClickHandler);
+
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+    // smileHandler
+    element.querySelector(`.film-details__emoji-label--smile`)
+      .addEventListener(`click`, () => {
+        const imgPath = element.querySelector(`.film-details__emoji-label--smile img`).src;
+        this._imgSmile = imgPath;
+
+        this.rerender();
+      });
+
+    // sleepingHandler
+    element.querySelector(`.film-details__emoji-label--sleeping`)
+      .addEventListener(`click`, () => {
+        alert(true);
+        const imgPath = element.querySelector(`.film-details__emoji-label--sleeping img`).src;
+        this._imgSmile = imgPath;
+
+        this.rerender();
+      });
+
+    // pukeHandler
+    element.querySelector(`.film-details__emoji-label--puke`)
+      .addEventListener(`click`, () => {
+        const imgPath = element.querySelector(`.film-details__emoji-label--puke img`).src;
+        this._imgSmile = imgPath;
+        this.rerender();
+      });
+
+    // angryHandler
+    element.querySelector(`.film-details__emoji-label--angry`)
+    .addEventListener(`click`, () => {
+      const imgPath = element.querySelector(`.film-details__emoji-label--angry img`).src;
+      this._imgSmile = imgPath;
+
+      this.rerender();
+    });
   }
 
   rerender() {
@@ -52,59 +102,9 @@ class FilmPopup extends AbstractSmartComponent {
     this._watchlistClickHandler = handler;
   }
 
-  recoveryListeners() {
 
-    // заново вешаем обработчики
-    this.closeBtnClickHandler(this._closeBtnClickHandler);
-    this.favoritesClickHandler(this._favoritesClickHandler);
-    this.alreadyWatchedClickHandler(this._alreadyWatchedClickHandler);
-    this.watchlistClickHandler(this._watchlistClickHandler);
 
-    this._subscribeOnEvents();
-  }
 
-  _subscribeOnEvents() {
-    const element = this.getElement();
-
-    // smileHandler
-    element.querySelector(`.film-details__emoji-label--smile`)
-      .addEventListener(`click`, () => {
-        const imgPath = element.querySelector(`.film-details__emoji-label--smile img`).src;
-        this._imgSmile = imgPath;
-
-        this.rerender();
-      });
-
-    // sleepingHandler
-    element.querySelector(`.film-details__emoji-label--sleeping`)
-      .addEventListener(`click`, () => {
-        const imgPath = element.querySelector(`.film-details__emoji-label--sleeping img`).src;
-        this._imgSmile = imgPath;
-
-        this.rerender();
-      });
-
-    // pukeHandler
-    element.querySelector(`.film-details__emoji-label--puke`)
-    .addEventListener(`click`, () => {
-      const imgPath = element.querySelector(`.film-details__emoji-label--puke img`).src;
-      this._imgSmile = imgPath;
-
-      this.rerender();
-    });
-
-    // angryHandler
-    element.querySelector(`.film-details__emoji-label--angry`)
-    .addEventListener(`click`, () => {
-      const imgPath = element.querySelector(`.film-details__emoji-label--angry img`).src;
-      this._imgSmile = imgPath;
-
-      this.rerender();
-    });
-    element.querySelector('.film-details__comment-delete').addEventListener('click', () => {
-      alert('delete')
-    })
-  }
 }
 
 export default FilmPopup;

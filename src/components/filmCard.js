@@ -8,6 +8,7 @@ class FilmCard extends AbstractSmartComponent {
 
     this._film = film;
     this._commentsCount = commentsCount;
+
     this._posterClickHandler = null;
     this._titleClickHandler = null;
     this._commentsClickHandler = null;

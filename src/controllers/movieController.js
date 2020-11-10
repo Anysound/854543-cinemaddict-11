@@ -31,6 +31,7 @@ class MovieController {
     // const buildComments = commentsModel.createComments(commentsMocks);
     const filmCardComponent = new FilmCardComponent(film, commentsMocks); // новый компонент с новыми данными
     this._filmCardPopupComponent = new FilmCardPopupComponent(film, commentsMocks);
+    console.log(this._filmCardPopupComponent);
     const filmsContainer = document.querySelector(`.films-list__container`);
     // обработчики клика появления/закрытия попапа
     const onElementsClick = () => {
@@ -70,6 +71,12 @@ class MovieController {
     });
 
     filmCardComponent.favoritesClickHandler(() => {
+      const newData = Object.assign({}, film, {isFavorite: !film.isFavorite});
+      this._onDataChange(this, film, newData);
+    });
+
+    this._filmCardPopupComponent.favoritesClickHandler(() => {
+      alert(true);
       const newData = Object.assign({}, film, {isFavorite: !film.isFavorite});
       this._onDataChange(this, film, newData);
     });
